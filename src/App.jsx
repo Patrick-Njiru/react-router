@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from "react"
 import { Route, Routes } from "react-router-dom"
-import { Home, Login, NavBar, Products } from "./scenes"
+import { Home, Login, NavBar, Products, Error } from "./scenes"
 import { products } from "./constants/data"
 import { reducer } from "./functions/reducer"
 
@@ -30,6 +30,7 @@ const App = () => {
           <Route exact path="/" element={<Home isLoggedIn={state.isLoggedIn} />} />
           <Route path="/login" element={<Login dispatch={dispatch} isModalOpen={state.isModalOpen} />} />
           <Route path="/products" element={<Products products={products} />} />
+          <Route path="*" element={<Error products={products} />} />
         </Routes>
       </div>
     </div>
