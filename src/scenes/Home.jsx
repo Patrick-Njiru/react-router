@@ -8,7 +8,12 @@ const Home = ({isLoggedIn}) => {
         Welcome to Naimart Store where you can shop from the convenience of your home and have products delivered to you at an affordable price.
       </p>
       <div className="text-center">
-        <NavLink to={`${isLoggedIn ? '/' : '/login'}`} className="btn btn-danger btn-lg">Get started</NavLink>
+        <NavLink
+          to={`${isLoggedIn ? '/products' : '/login'}`}
+          className="btn btn-danger btn-lg"
+        >
+          Get started
+        </NavLink>
       </div>
     </div>
   )
