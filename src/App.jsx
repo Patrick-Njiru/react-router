@@ -23,7 +23,7 @@ const App = () => {
   })
   
   return (
-    <div className="px-2">
+    <div>
       <NavBar dispatch={dispatch} {...state} />
       <div className="container">
         <Routes>
