@@ -1,12 +1,23 @@
 import { useRef } from 'react'
 import PropTypes from 'prop-types'
+import { useNavigate } from 'react-router-dom'
+import Modal from '../components/Modal'
 
-const Login = ({onLogIn}) => {
+const Login = ({dispatch, isModalOpen}) => {
   const refContainer = useRef('')
+  const nav = useNavigate()
   
   return (
-    <div className='m-5 p-5 w-75' style={{minWidth: 300}}>
-      <form className='form bg-secondary rounded-pill p-5' onSubmit={() => onLogIn(refContainer.current.value)}>
+    <div className='m-5 p-5 w-75' style={{ minWidth: 300 }}>
+      {isModalOpen && <Modal />}
+      <form
+        className='form bg-secondary rounded-pill p-5'
+        onSubmit={(e) => {
+          e.preventDefault()
+          dispatch({ type: 'LOG_IN', payload: refContainer.current.value })
+          nav('/products')
+        }}
+      >
         <div className="form-floating mb-2">
           <input
             type="text"
@@ -38,6 +49,9 @@ const Login = ({onLogIn}) => {
   )
 }
 
-Login.propTypes = { onLogIn: PropTypes.func.isRequired }
+Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  isModalOpen: PropTypes.bool.isRequired
+}
 
 export default Login

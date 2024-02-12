@@ -2,13 +2,7 @@ import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import './navbar.css'
 
-const NavBar = ({
-  isLoggedIn,
-  user,
-  setUser,
-  setIsLoggedIn,
-  displayProducts
-}) => (
+const NavBar = ({ isLoggedIn, user, displayProducts, dispatch }) => (
   <nav className="navbar bg-dark text-light w-100">
     <div className="container">
       <h5 className="my-auto">
@@ -21,12 +15,7 @@ const NavBar = ({
         <NavLink
           className='text-decoration-none mx-2'
           to='/login'
-          onClick={() => {
-            if (isLoggedIn) {
-              setIsLoggedIn(false)
-              setUser('stranger')
-            }
-          }}
+          onClick={() => { isLoggedIn? dispatch({type: 'LOG_OUT'}) : null }}
         >
           <button className='btn btn-primary ms-2'> {isLoggedIn ? 'Log Out' : 'Log In'} </button>
         </NavLink>
@@ -38,9 +27,8 @@ const NavBar = ({
 NavBar.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   user: PropTypes.string.isRequired,
-  setUser: PropTypes.func.isRequired,
-  setIsLoggedIn: PropTypes.func.isRequired,
-  displayProducts: PropTypes.bool.isRequired
+  displayProducts: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired
 }
 
 export default NavBar

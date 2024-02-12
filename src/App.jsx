@@ -1,28 +1,34 @@
-import { useEffect, useState } from "react"
+import { useEffect, useReducer } from "react"
 import { Route, Routes } from "react-router-dom"
 import { Home, Login, NavBar, Products } from "./scenes"
 import { products } from "./constants/data"
-import { useNavigate } from "react-router-dom"
+import { reducer } from "./functions/reducer"
+
+const defaultState = {
+  isLoggedIn: false,
+  user: 'stranger',
+  displayProducts: false,
+  isModalOpen: false,
+}
 
 const App = () => {
-  const [isLoggedIn, setisLoggedIn] = useState(false)
-  const [user, setUser] = useState('stranger')
-  const [displayProducts, setdisplayproducts] = useState(false)
-  const nav = useNavigate()
+  const [state, dispatch] = useReducer(reducer, defaultState)
   
   useEffect(() => {
-    setdisplayproducts(prevState => isLoggedIn ? !prevState : prevState )
-  }, [isLoggedIn])
-
-  const handleLogin = (val) => { setUser(val); setisLoggedIn(true); nav('/products') }
+    if (state.isModalOpen) {
+      setTimeout(() => {
+        dispatch({type: 'CLOSE_MODAL'})
+      }, 4000)
+    }
+  })
   
   return (
     <div className="px-2">
-      <NavBar {...{user, isLoggedIn, setisLoggedIn, setUser, displayProducts}} />
+      <NavBar dispatch={dispatch} {...state} />
       <div className="container">
         <Routes>
-          <Route exact path="/" element={<Home {...{ isLoggedIn }} />} />
-          <Route path="/login" element={<Login onLogIn={handleLogin} />} />
+          <Route exact path="/" element={<Home isLoggedIn={state.isLoggedIn} />} />
+          <Route path="/login" element={<Login dispatch={dispatch} isModalOpen={state.isModalOpen} />} />
           <Route path="/products" element={<Products products={products} />} />
         </Routes>
       </div>
